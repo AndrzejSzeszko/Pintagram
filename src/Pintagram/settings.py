@@ -31,12 +31,15 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # pre-added
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # custom
+    'app_pintagram'
 ]
 
 MIDDLEWARE = [
@@ -75,8 +78,11 @@ WSGI_APPLICATION = 'Pintagram.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'pintagram',
+        'USER': 'postgres',
+        'PASSWORD': 'coderslab',
+        'HOST': '127.0.0.1'
     }
 }
 
@@ -114,7 +120,19 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Custom user model
+
+AUTH_USER_MODEL = 'app_pintagram.User'
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+
+# Media files (photos, etc.)
+
+MEDIA_URL = '/static/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static')
