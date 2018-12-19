@@ -1,0 +1,17 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'app_pintagram/css/style.css' %}">
+    <title>Pintagram</title>
+</head>
+<body>
+    <fieldset>
+        <a href="{% url 'list-of-all-photos' %}">Home</a>
+    </fieldset>
+    {% block content %}
+    {% endblock content %}
+</body>
+</html>
