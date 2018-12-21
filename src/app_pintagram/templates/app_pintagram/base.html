@@ -12,13 +12,14 @@
     <fieldset>
         <a href="{% url 'list-of-all-photos' %}">Home</a>
         <a href="{% url 'sign-in' %}">Sign In</a>
-        <p>You are logged as {{ user }}</p>
         {% if user.is_authenticated %}
             <p>
+                You are logged in as <a href="{% url 'user-details' user.pk %}">{{ user }}</a>
                 <a href="{% url 'logout' %}">Logout</a>
             </p>
         {% else %}
             <p>
+                You are logged as {{ user }}
                 <a href="{% url 'login' %}">Login</a>
             </p>
         {% endif %}
