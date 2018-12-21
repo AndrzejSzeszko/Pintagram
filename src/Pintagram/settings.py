@@ -122,7 +122,7 @@ USE_TZ = True
 
 # Custom user model
 
-AUTH_USER_MODEL = 'app_pintagram.User'
+AUTH_USER_MODEL = 'app_pintagram.CustomUser'
 
 
 # Static files (CSS, JavaScript, Images)
