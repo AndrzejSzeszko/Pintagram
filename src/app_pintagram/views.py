@@ -25,3 +25,9 @@ class SignInView(generic.CreateView):
     template_name = 'app_pintagram/sign_in.html'
     form_class    = SignInForm
     success_url   = reverse_lazy('login')
+
+
+class UserDetailsView(generic.DetailView):
+    model = get_user_model()
+    template_name = 'app_pintagram/user_details.html'
+    context_object_name = 'user_details'
