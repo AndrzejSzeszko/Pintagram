@@ -1,0 +1,13 @@
+{% extends 'app_pintagram/base.html' %}
+
+{% block content %}
+    <div>
+        <h3>Create new account:</h3>
+        <form action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Submit</button>
+            <button type="reset">Clear all fields</button>
+        </form>
+    </div>
+{% endblock content %}
