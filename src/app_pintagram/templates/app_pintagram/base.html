@@ -8,8 +8,20 @@
     <title>Pintagram</title>
 </head>
 <body>
+    <h2>Welcome to Pintagram</h2>
     <fieldset>
         <a href="{% url 'list-of-all-photos' %}">Home</a>
+        <a href="{% url 'sign-in' %}">Sign In</a>
+        <p>You are logged as {{ user }}</p>
+        {% if user.is_authenticated %}
+            <p>
+                <a href="{% url 'logout' %}">Logout</a>
+            </p>
+        {% else %}
+            <p>
+                <a href="{% url 'login' %}">Login</a>
+            </p>
+        {% endif %}
     </fieldset>
     {% block content %}
     {% endblock content %}
