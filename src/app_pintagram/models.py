@@ -10,7 +10,7 @@ def get_sentinel_user():
     return get_user_model().objects.get_or_create(username='Deleted_user')[0]
 
 
-class User(auth_models.AbstractUser):
+class CustomUser(auth_models.AbstractUser):
     profile_photo = models.ImageField(upload_to='profile_pics', default='default_user.jpg')
 
 
