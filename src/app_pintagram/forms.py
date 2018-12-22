@@ -7,7 +7,7 @@ from django.contrib.auth.forms import (
     UserChangeForm
 )
 from .models import (
-    Photo,
+    Post,
     Comment
 )
 
@@ -24,10 +24,10 @@ class UpdateCustomUserForm(UserChangeForm):
         fields = '__all__'
 
 
-class PhotoForm(forms.ModelForm):
+class PostForm(forms.ModelForm):
     class Meta:
-        model  = Photo
-        fields = '__all__'
+        model  = Post
+        fields = ['photo', 'description']
 
 
 class CommentForm(forms.ModelForm):
