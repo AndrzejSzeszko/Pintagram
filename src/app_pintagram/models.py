@@ -11,6 +11,7 @@ def get_sentinel_user():
 
 
 class CustomUser(auth_models.AbstractUser):
+    email         = models.EmailField(unique=True)
     profile_photo = models.ImageField(upload_to='profile_pics', default='default_user.jpg')
 
 
