@@ -22,10 +22,15 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.ListAllPhotosView.as_view(), name='list-of-all-photos'),
-    path('sign_in/', views.SignInView.as_view(), name='sign-in'),
+    path('', views.ListAllPostsView.as_view(), name='list-of-all-posts'),
     path('login/', auth_views.LoginView.as_view(template_name='app_pintagram/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='app_pintagram/logout.html'), name='logout'),
-    path('user/details/<int:pk>/', views.UserDetailsView.as_view(), name='user-details'),
+    path('sign_in/', views.SignInView.as_view(), name='sign-in'),
+    path('user/details/<int:pk>/', views.CustomUserDetailView.as_view(), name='user-details'),
     path('user/update/<int:pk>/', views.UpdateCustomUserView.as_view(), name='user-update'),
+    path('user/delete/<int:pk>/', views.DeleteCustomUser.as_view(), name='user-delete'),
+    path('post/create/', views.CreatePostView.as_view(), name='post-create'),
+    path('post/details/<int:pk>/', views.PostDetailsView.as_view(), name='post-details'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
