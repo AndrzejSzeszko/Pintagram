@@ -26,5 +26,6 @@ urlpatterns = [
     path('sign_in/', views.SignInView.as_view(), name='sign-in'),
     path('login/', auth_views.LoginView.as_view(template_name='app_pintagram/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='app_pintagram/logout.html'), name='logout'),
-    path('user_details/<int:pk>/', views.UserDetails.as_view(), name='user-details'),
+    path('user/details/<int:pk>/', views.UserDetailsView.as_view(), name='user-details'),
+    path('user/update/<int:pk>/', views.UpdateCustomUserView.as_view(), name='user-update'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
