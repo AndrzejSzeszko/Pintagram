@@ -1,0 +1,21 @@
+{% extends 'app_pintagram/base.html' %}
+
+{% block content %}
+
+    <p>Author: {{ post.author }}</p>
+
+    <p>Created: {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
+
+    <img src="{{ post.photo.url }}" alt="Here should be user profile pic">
+
+    <p>Thumbs up: {{ post.thumbs_up }}  Thumbs down: {{ post.thumbs_down }}</p>
+
+    {% if post.description %}
+        <p>Description: {{ post.decsription }}</p>
+    {% endif %}
+
+    <button type="button">
+        <a href="#">Delete post</a>
+    </button>
+
+{% endblock content %}
