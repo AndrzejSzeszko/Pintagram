@@ -16,6 +16,12 @@
         <p>Last name: {{ user_details.last_name }}</p>
     {% endif %}
 
-    <a href="{% url 'user-update' user.pk %}">Update information about you</a>
+    <button type="button">
+        <a href="{% url 'user-update' user.pk %}">Update information about you</a>
+    </button>
+
+    <button type="button">
+        <a href="{% url 'user-delete' user.pk %}">Delete account</a>
+    </button>
 
 {% endblock content %}
