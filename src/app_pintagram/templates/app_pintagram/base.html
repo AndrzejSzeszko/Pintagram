@@ -10,8 +10,9 @@
 <body>
     <h2>Welcome to Pintagram</h2>
     <fieldset>
-        <a href="{% url 'list-of-all-photos' %}">Home</a>
+        <a href="{% url 'list-of-all-posts' %}">Home</a>
         <a href="{% url 'sign-in' %}">Sign In</a>
+        <a href="{% url 'post-create' %}">Add New post</a>
         {% if user.is_authenticated %}
             <p>
                 You are logged in as <a href="{% url 'user-details' user.pk %}">{{ user }}</a>
@@ -24,6 +25,15 @@
             </p>
         {% endif %}
     </fieldset>
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     {% block content %}
     {% endblock content %}
 </body>
