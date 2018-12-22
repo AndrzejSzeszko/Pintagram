@@ -2,7 +2,10 @@
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import (
+    UserCreationForm,
+    UserChangeForm
+)
 from .models import (
     Photo,
     Comment
@@ -13,6 +16,12 @@ class SignInForm(UserCreationForm):
     class Meta:
         model  = get_user_model()
         fields = ['username', 'email', 'password1', 'password2']
+
+
+class UpdateCustomUserForm(UserChangeForm):
+    class Meta:
+        model  = get_user_model()
+        fields = '__all__'
 
 
 class PhotoForm(forms.ModelForm):
