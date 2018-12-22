@@ -1,0 +1,21 @@
+{% extends 'app_pintagram/base.html' %}
+
+{% block content %}
+
+    <h4>User {{ user_details.username }} information:</h4>
+
+    <img src="{{ user_details.profile_photo.url }}" alt="Here should be user profile pic">
+
+    <p>Email: {{ user_details.email }}</p>
+
+    {% if user_details.first_name %}
+        <p>First name: {{ user_details.first_name }}</p>
+    {% endif %}
+
+    {% if user_details.last_name %}
+        <p>Last name: {{ user_details.last_name }}</p>
+    {% endif %}
+
+    <a href="{% url 'user-update' user.pk %}">Update information about you</a>
+
+{% endblock content %}
