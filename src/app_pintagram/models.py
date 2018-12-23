@@ -24,6 +24,9 @@ class CustomUser(auth_models.AbstractUser):
             img.thumbnail(output_size)
             img.save(self.profile_photo.path)
 
+    def __str__(self):
+        return self.username
+
 
 class Post(models.Model):
     author            = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -45,9 +48,15 @@ class Post(models.Model):
             img.thumbnail(output_size)
             img.save(self.photo.path)
 
+    def __str__(self):
+        return f'Post of id {self.id} by {self.author}'
+
 
 class Comment(models.Model):
     author            = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET(get_sentinel_user))
     post              = models.ForeignKey(Post, on_delete=models.CASCADE)
     content           = models.TextField(max_length=256)
     creation_datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'Comment of id {self.id} by {self.author} on Post of id {self.post_id}'
