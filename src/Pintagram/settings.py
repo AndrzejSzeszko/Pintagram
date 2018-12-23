@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # third party
+    'crispy_forms',
     # custom
     'app_pintagram'
 ]
@@ -130,6 +132,9 @@ AUTH_USER_MODEL = 'app_pintagram.CustomUser'
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'app_pintagram/static'),
+]
 
 
 # Media files (Images, etc.)
@@ -142,3 +147,8 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'list-of-all-posts'
+
+
+# crispy forms stuff
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
