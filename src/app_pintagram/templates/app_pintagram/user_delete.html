@@ -1,6 +1,7 @@
 {% extends 'app_pintagram/base.html' %}
 
 {% block content %}
+
     <h2>Deleting {{ object }}'s account</h2>
     <form method="post">
         {% csrf_token %}
@@ -10,4 +11,5 @@
             <a href="{% url 'user-details' object.pk %}">Cancel</a>
         </button>
     </form>
+
 {% endblock content %}
