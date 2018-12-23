@@ -1,11 +1,12 @@
 {% extends 'app_pintagram/base.html' %}
+{% load crispy_forms_filters %}
 
 {% block content %}
     <div>
         <h3>Create new account:</h3>
         <form action="" method="post">
             {% csrf_token %}
-            {{ form.as_p }}
+            {{ form|crispy }}
             <button type="submit">Submit</button>
             <button type="reset">Clear all fields</button>
         </form>
