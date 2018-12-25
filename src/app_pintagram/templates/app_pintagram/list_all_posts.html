@@ -6,7 +6,7 @@
     <h3>Newest posts:</h3>
     {% for post in list_of_all_posts %}
         <fieldset>
-            <p>{{ post.author }} on {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
+            <p><a href="{% url 'user-details' post.author_id %}">{{ post.author }}</a> on {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
             <p>
                 <a href="{% url 'post-details' post.pk %}">
                     <img class="img-list" src="{{ post.photo.url }}" alt="Here should be post's photo">
