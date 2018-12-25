@@ -1,13 +1,18 @@
 from django.shortcuts import (
     render,
-    reverse
+    reverse,
+    redirect
 )
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.views import generic
+from django.views.generic.edit import FormMixin
 from django.conf import settings
-from .models import Post
+from .models import (
+    Post,
+    Comment,
+)
 from .forms import (
     PostForm,
     CommentForm,
@@ -79,14 +84,33 @@ class CreatePostView(generic.CreateView):
         return rsp
 
     def form_invalid(self, form):
-        rsp = super().form_invalid(form)
         messages.error(self.request, 'Form wasn\'t filled correctly.')
-        return rsp
+        return super().form_invalid(form)
 
 
-class PostDetailsView(generic.DetailView):
+class PostDetailsView(FormMixin, generic.DetailView):
     model         = Post
     template_name = 'app_pintagram/post_details.html'
+    form_class    = CommentForm
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update({'comments': Comment.objects.filter(post=self.object)})
+        return ctx
+
+    def get_redirect_url(self):
+        return reverse_lazy('post-details', kwargs={'pk': self.kwargs.get('pk')})
+
+    def post(self, *args, **kwargs):
+        form                 = self.get_form()
+        form.instance.author = self.request.user
+        form.instance.post   = self.get_object()
+        if form.is_valid():
+            form.save()
+            messages.success(self.request, 'Comment successfully posted!')
+        else:
+            messages.error(self.request, 'Comment content was filled improperly.')
+        return redirect(self.get_redirect_url())
 
 
 class UpdatePostView(generic.UpdateView):
@@ -98,9 +122,8 @@ class UpdatePostView(generic.UpdateView):
         return reverse_lazy('post-details', kwargs={'pk': self.get_object().pk})
 
     def form_valid(self, form):
-        rsp = super().form_valid(form)
         messages.success(self.request, 'Post successfully updated!')
-        return rsp
+        return super().form_valid(form)
 
 
 class DeletePostView(generic.DeleteView):
@@ -109,6 +132,5 @@ class DeletePostView(generic.DeleteView):
     success_url   = reverse_lazy('list-of-all-posts')
 
     def post(self, request, *args, **kwargs):
-        rsp          = super().post(request, *args, **kwargs)
         messages.warning(self.request, f'Post has been successfully deleted.')
-        return rsp
+        return super().post(request, *args, **kwargs)
