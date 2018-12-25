@@ -31,9 +31,9 @@
             </p>
             <p>{{ comment.content }}</p>
         </div>
-{#        <button type="button">#}
-{#            <a href="{% url 'comment-delete' post.pk %}">Delete comment</a>#}
-{#        </button>#}
+        <button type="button">
+            <a href="{% url 'comment-delete' comment.pk %}">Delete comment</a>
+        </button>
     {% endfor %}
 
     <h4>Comment:</h4>
