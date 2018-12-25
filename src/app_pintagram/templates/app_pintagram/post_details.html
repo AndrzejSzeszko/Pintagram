@@ -1,4 +1,5 @@
 {% extends 'app_pintagram/base.html' %}
+{% load crispy_forms_filters %}
 
 {% block content %}
 
@@ -21,6 +22,25 @@
     <button type="button">
         <a href="{% url 'post-delete' post.pk %}">Delete post</a>
     </button>
+    
+    <h4>Comments:</h4>
+    {% for comment in comments %}
+        <div>
+            <p>
+                <a href="{% url 'user-details' comment.author_id %}">{{ comment.author }}</a> on {{ comment.creation_datetime|date:"Y/m/d H:i:s" }}
+            </p>
+            <p>{{ comment.content }}</p>
+        </div>
+{#        <button type="button">#}
+{#            <a href="{% url 'comment-delete' post.pk %}">Delete comment</a>#}
+{#        </button>#}
+    {% endfor %}
 
+    <h4>Comment:</h4>
+    <form method="post">
+        {% csrf_token %}
+            {{ form|crispy }}
+        <input type="submit" value="Post comment">
+    </form>
 
 {% endblock content %}
