@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <p>Author: {{ post.author }}</p>
+    <p>Author: <a href="{% url 'user-details' post.author_id %}">{{ post.author }}</a></p>
 
     <p>Created: {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
 
@@ -11,11 +11,16 @@
     <p>Thumbs up: {{ post.thumbs_up }}  Thumbs down: {{ post.thumbs_down }}</p>
 
     {% if post.description %}
-        <p>Description: {{ post.decsription }}</p>
+        <p>Description: {{ post.description }}</p>
     {% endif %}
 
     <button type="button">
-        <a href="#">Delete post</a>
+        <a href="{% url 'post-update' post.pk %}">Update post</a>
     </button>
+
+    <button type="button">
+        <a href="{% url 'post-delete' post.pk %}">Delete post</a>
+    </button>
+
 
 {% endblock content %}
