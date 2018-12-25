@@ -35,6 +35,12 @@ class SignInView(generic.CreateView):
         return rsp
 
 
+class CustomUserDetailView(generic.DetailView):
+    model               = get_user_model()
+    template_name       = 'app_pintagram/user_details.html'
+    context_object_name = 'user_details'
+
+
 class UpdateCustomUserView(generic.UpdateView):
     model         = get_user_model()
     template_name = 'app_pintagram/user_update.html'
@@ -47,12 +53,6 @@ class UpdateCustomUserView(generic.UpdateView):
         rsp = super().form_valid(form)
         messages.success(self.request, 'User information successfully updated!')
         return rsp
-
-
-class CustomUserDetailView(generic.DetailView):
-    model               = get_user_model()
-    template_name       = 'app_pintagram/user_details.html'
-    context_object_name = 'user_details'
 
 
 class DeleteCustomUser(generic.DeleteView):
@@ -87,3 +87,28 @@ class CreatePostView(generic.CreateView):
 class PostDetailsView(generic.DetailView):
     model         = Post
     template_name = 'app_pintagram/post_details.html'
+
+
+class UpdatePostView(generic.UpdateView):
+    model         = Post
+    template_name = 'app_pintagram/post_update.html'
+    fields        = ['description']
+
+    def get_success_url(self):
+        return reverse_lazy('post-details', kwargs={'pk': self.get_object().pk})
+
+    def form_valid(self, form):
+        rsp = super().form_valid(form)
+        messages.success(self.request, 'Post successfully updated!')
+        return rsp
+
+
+class DeletePostView(generic.DeleteView):
+    model         = Post
+    template_name = 'app_pintagram/post_delete.html'
+    success_url   = reverse_lazy('list-of-all-posts')
+
+    def post(self, request, *args, **kwargs):
+        rsp          = super().post(request, *args, **kwargs)
+        messages.warning(self.request, f'Post has been successfully deleted.')
+        return rsp
