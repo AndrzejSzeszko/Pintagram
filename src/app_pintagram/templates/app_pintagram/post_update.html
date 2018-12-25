@@ -1,0 +1,23 @@
+{% extends 'app_pintagram/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+
+    <h4>Update post:</h4>
+
+    <p>Author: <a href="{% url 'user-details' post.author_id %}">{{ post.author }}</a></p>
+
+    <p>Created: {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
+
+    <img src="{{ post.photo.url }}" alt="Here should be user profile pic">
+
+    <p>Thumbs up: {{ post.thumbs_up }}  Thumbs down: {{ post.thumbs_down }}</p>
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit">Save changes</button>
+        <button type="button"><a href="#">Cancel</a></button>
+    </form>
+
+{% endblock content %}
