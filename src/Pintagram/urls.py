@@ -31,6 +31,8 @@ urlpatterns = [
     path('user/delete/<int:pk>/', views.DeleteCustomUser.as_view(), name='user-delete'),
     path('post/create/', views.CreatePostView.as_view(), name='post-create'),
     path('post/details/<int:pk>/', views.PostDetailsView.as_view(), name='post-details'),
+    path('post/update/<int:pk>/', views.UpdatePostView.as_view(), name='post-update'),
+    path('post/delete/<int:pk>/', views.DeletePostView.as_view(), name='post-delete'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
