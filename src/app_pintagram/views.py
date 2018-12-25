@@ -134,3 +134,15 @@ class DeletePostView(generic.DeleteView):
     def post(self, request, *args, **kwargs):
         messages.warning(self.request, f'Post has been successfully deleted.')
         return super().post(request, *args, **kwargs)
+
+
+class DeleteCommentView(generic.DeleteView):
+    model = Comment
+    template_name = 'app_pintagram/comment_delete.html'
+
+    def get_success_url(self):
+        return reverse_lazy('post-details', kwargs={'pk': self.get_object().post.pk})
+
+    def post(self, request, *args, **kwargs):
+        messages.warning(self.request, f'{self.get_object()} has been successfully deleted.')
+        return super().post(request, *args, **kwargs)
