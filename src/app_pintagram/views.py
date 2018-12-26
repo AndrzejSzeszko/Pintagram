@@ -5,10 +5,13 @@ from django.shortcuts import (
 )
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
+from django.contrib.auth.mixins import (
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+)
 from django.contrib import messages
 from django.views import generic
 from django.views.generic.edit import FormMixin
-from django.conf import settings
 from .models import (
     Post,
     Comment,
@@ -21,7 +24,7 @@ from .forms import (
 )
 
 
-class ListAllPostsView(generic.ListView):
+class ListAllPostsView(LoginRequiredMixin, generic.ListView):
     model               = Post
     template_name       = 'app_pintagram/list_all_posts.html'
     context_object_name = 'list_of_all_posts'
@@ -40,13 +43,18 @@ class SignInView(generic.CreateView):
         return rsp
 
 
-class CustomUserDetailView(generic.DetailView):
+class CustomUserDetailView(LoginRequiredMixin, generic.DetailView):
     model               = get_user_model()
     template_name       = 'app_pintagram/user_details.html'
     context_object_name = 'user_details'
 
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx.update({'user_details_posts': self.get_object().post_set.all()})
+        return ctx
 
-class UpdateCustomUserView(generic.UpdateView):
+
+class UpdateCustomUserView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model         = get_user_model()
     template_name = 'app_pintagram/user_update.html'
     fields        = ['username', 'first_name', 'last_name', 'email', 'profile_photo']
@@ -59,8 +67,11 @@ class UpdateCustomUserView(generic.UpdateView):
         messages.success(self.request, 'User information successfully updated!')
         return rsp
 
+    def test_func(self):
+        return self.get_object() == self.request.user
 
-class DeleteCustomUser(generic.DeleteView):
+
+class DeleteCustomUser(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model         = get_user_model()
     template_name = 'app_pintagram/user_delete.html'
     success_url   = reverse_lazy('login')
@@ -71,8 +82,11 @@ class DeleteCustomUser(generic.DeleteView):
         messages.warning(self.request, f'User {deleted_user.username} has been successfully deleted.')
         return rsp
 
+    def test_func(self):
+        return self.get_object() == self.request.user
 
-class CreatePostView(generic.CreateView):
+
+class CreatePostView(LoginRequiredMixin, generic.CreateView):
     model         = Post
     template_name = 'app_pintagram/post_create.html'
     form_class    = PostForm
@@ -88,7 +102,7 @@ class CreatePostView(generic.CreateView):
         return super().form_invalid(form)
 
 
-class PostDetailsView(FormMixin, generic.DetailView):
+class PostDetailsView(LoginRequiredMixin, FormMixin, generic.DetailView):
     model         = Post
     template_name = 'app_pintagram/post_details.html'
     form_class    = CommentForm
@@ -113,7 +127,7 @@ class PostDetailsView(FormMixin, generic.DetailView):
         return redirect(self.get_redirect_url())
 
 
-class UpdatePostView(generic.UpdateView):
+class UpdatePostView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
     model         = Post
     template_name = 'app_pintagram/post_update.html'
     fields        = ['description']
@@ -125,19 +139,25 @@ class UpdatePostView(generic.UpdateView):
         messages.success(self.request, 'Post successfully updated!')
         return super().form_valid(form)
 
+    def test_func(self):
+        return self.get_object().author == self.request.user
 
-class DeletePostView(generic.DeleteView):
+
+class DeletePostView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
     model         = Post
     template_name = 'app_pintagram/post_delete.html'
     success_url   = reverse_lazy('list-of-all-posts')
 
     def post(self, request, *args, **kwargs):
-        messages.warning(self.request, f'Post has been successfully deleted.')
+        messages.warning(self.request, 'Post has been successfully deleted.')
         return super().post(request, *args, **kwargs)
 
+    def test_func(self):
+        return self.get_object().author == self.request.user
 
-class DeleteCommentView(generic.DeleteView):
-    model = Comment
+
+class DeleteCommentView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model         = Comment
     template_name = 'app_pintagram/comment_delete.html'
 
     def get_success_url(self):
@@ -146,3 +166,6 @@ class DeleteCommentView(generic.DeleteView):
     def post(self, request, *args, **kwargs):
         messages.warning(self.request, f'{self.get_object()} has been successfully deleted.')
         return super().post(request, *args, **kwargs)
+
+    def test_func(self):
+        return self.get_object().author == self.request.user
