@@ -7,10 +7,11 @@
 
     <p>Created: {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
 
-    <img src="{{ post.photo.url }}" alt="Here should be user profile pic">
+    <img src="{{ post.photo.url }}" alt="Here should be post pic">
 
     <p>
-        <i class="fas fa-thumbs-up"></i> {{ post.thumbs_up }}
+        <i class="fas fa-thumbs-up" data-user-id="{{ user.id }}" data-post-id="{{ post.id }}" data-is-liked="{{ is_post_liked }}"></i>
+        <span>{{ post.thumbs_up }}</span>
 {#        <i class="fas fa-thumbs-down"></i> {{ post.thumbs_down }}#}
     </p>
 
