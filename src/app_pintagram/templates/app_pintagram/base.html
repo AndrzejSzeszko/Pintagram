@@ -10,6 +10,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'app_pintagram/css/style.css' %}">
 
@@ -19,10 +22,10 @@
 
     <h2>Welcome to Pintagram</h2>
     <fieldset>
-        <a href="{% url 'list-of-all-posts' %}">Home</a>
         <a href="{% url 'sign-in' %}">Sign In</a>
-        <a href="{% url 'post-create' %}">Add New post</a>
         {% if user.is_authenticated %}
+            <a href="{% url 'list-of-all-posts' %}">Home</a>
+            <a href="{% url 'post-create' %}">Add New post</a>
             <p>
                 You are logged in as <a href="{% url 'user-details' user.pk %}">{{ user }}</a>
                 <a href="{% url 'logout' %}">Logout</a>
