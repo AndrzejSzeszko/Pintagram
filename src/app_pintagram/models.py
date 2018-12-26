@@ -15,6 +15,7 @@ def get_sentinel_user():
 class CustomUser(auth_models.AbstractUser):
     email         = models.EmailField(unique=True)
     profile_photo = models.ImageField(upload_to='profile_pics', default='default_user.jpg')
+    is_blocked    = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         super().save()
@@ -36,6 +37,7 @@ class Post(models.Model):
     creation_datetime = models.DateTimeField(auto_now_add=True)
     thumbs_up         = models.PositiveIntegerField(default=0)
     thumbs_down       = models.PositiveIntegerField(default=0)
+    is_blocked        = models.BooleanField(default=False)
 
     def get_absolute_url(self):
         return reverse('post-details', kwargs={'pk': self.pk})
@@ -57,6 +59,7 @@ class Comment(models.Model):
     post              = models.ForeignKey(Post, on_delete=models.CASCADE)
     content           = models.TextField(max_length=256)
     creation_datetime = models.DateTimeField(auto_now_add=True)
+    is_blocked        = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Comment of id {self.id} by {self.author} on Post of id {self.post_id}'
