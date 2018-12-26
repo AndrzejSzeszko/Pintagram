@@ -15,13 +15,26 @@
     {% if user_details.last_name %}
         <p>Last name: {{ user_details.last_name }}</p>
     {% endif %}
+    
+    {% if user_details == user %}
+        <button type="button">
+            <a href="{% url 'user-update' user_details.pk %}">Update information about you</a>
+        </button>
+        <button type="button">
+            <a href="{% url 'user-delete' user_details.pk %}">Delete account</a>
+        </button>
+    {% endif %}
 
-    <button type="button">
-        <a href="{% url 'user-update' user.pk %}">Update information about you</a>
-    </button>
-
-    <button type="button">
-        <a href="{% url 'user-delete' user.pk %}">Delete account</a>
-    </button>
+    <h4>User's posts:</h4>
+    {% for post in user_details_posts %}
+        <fieldset>
+            <p><a href="{% url 'user-details' post.author_id %}">{{ post.author }}</a> on {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
+            <p>
+                <a href="{% url 'post-details' post.pk %}">
+                    <img class="img-list" src="{{ post.photo.url }}" alt="Here should be post's photo">
+                </a>
+            </p>
+        </fieldset>
+    {% endfor %}
 
 {% endblock content %}
