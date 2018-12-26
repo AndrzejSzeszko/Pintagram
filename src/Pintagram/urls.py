@@ -34,6 +34,7 @@ urlpatterns = [
     path('post/update/<int:pk>/', views.UpdatePostView.as_view(), name='post-update'),
     path('post/delete/<int:pk>/', views.DeletePostView.as_view(), name='post-delete'),
     path('comment/delete/<int:pk>/', views.DeleteCommentView.as_view(), name='comment-delete'),
+    path('post_likes/', views.PostLikesView.as_view(), name='post-likes'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
