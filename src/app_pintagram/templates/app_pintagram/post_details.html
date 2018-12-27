@@ -10,8 +10,8 @@
     <img src="{{ post.photo.url }}" alt="Here should be post pic">
 
     <p>
-        <i class="fas fa-thumbs-up" data-user-id="{{ user.id }}" data-post-id="{{ post.id }}" data-is-liked="{{ is_post_liked }}"></i>
-        <span>{{ post.thumbs_up }}</span>
+        <i class="fas fa-thumbs-up" data-post-id="{{ post.id }}" data-is-post-liked="{{ is_post_liked }}"></i>
+        <span>{{ likes }}</span>
 {#        <i class="fas fa-thumbs-down"></i> {{ post.thumbs_down }}#}
     </p>
 
