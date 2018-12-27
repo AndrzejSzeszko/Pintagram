@@ -34,7 +34,10 @@ urlpatterns = [
     path('post/update/<int:pk>/', views.UpdatePostView.as_view(), name='post-update'),
     path('post/delete/<int:pk>/', views.DeletePostView.as_view(), name='post-delete'),
     path('comment/delete/<int:pk>/', views.DeleteCommentView.as_view(), name='comment-delete'),
-    path('post_likes/', views.PostLikesView.as_view(), name='post-likes'),
+    # path('post_like/create/', views.PostLikeCreateView.as_view(), name='post-like-create'),
+    # path('post_like/destroy/<int:post_id>/', views.PostLikeDestroyView.as_view(), name='post-like-destroy'),
+    # path('post_like/', views.PostLikeView.as_view(), name='post-like'),
+    path('post_like/', views.PostLikeView.as_view(), name='post-like'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

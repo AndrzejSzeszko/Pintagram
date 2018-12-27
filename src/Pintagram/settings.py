@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     # added on "django-admin startproject"
+    # 'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -40,11 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # third party
     'crispy_forms',
+    'rest_framework',
     # custom
-    'app_pintagram'
+    'app_pintagram',
 ]
 
 MIDDLEWARE = [
+    # 'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -53,6 +56,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'Pintagram.urls'
 
@@ -152,3 +157,11 @@ LOGIN_REDIRECT_URL = 'list-of-all-posts'
 # crispy forms stuff
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# django-rest-framework
+
+# REST_FRAMEWORK = {
+    # 'PAGE_SIZE': 20,
+#     'DEFAULT_PERMISSION_CLASSES': ('rest_framework.permissions.AllowAny',),
+# }
