@@ -33,7 +33,7 @@ likeIcon.on('click', function(){
             let currentCounterValue = parseInt(likesCounter.text());
             let properCounterValue = currentCounterValue + 1;
             likesCounter.text(properCounterValue);
-            likeIcon.css('color', 'blue');
+            likeIcon.css('color', '#2d7fc8');
             isPostLiked = true;
         })
     }
