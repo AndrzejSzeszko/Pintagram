@@ -3,6 +3,14 @@ from django.shortcuts import (
     reverse,
     redirect
 )
+from rest_framework.generics import (
+    CreateAPIView,
+    DestroyAPIView,
+)
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import PostLikeSerializer
 from django.db.models import F
 from django.http import JsonResponse
 from django.urls import reverse_lazy
@@ -17,6 +25,7 @@ from django.views.generic.edit import FormMixin
 from .models import (
     Post,
     Comment,
+    PostLike,
 )
 from .forms import (
     PostForm,
@@ -137,7 +146,8 @@ class PostDetailsView(LoginRequiredMixin, FormMixin, generic.DetailView):
         ctx.update(
             {
                 'comments': Comment.objects.filter(post=self.object, is_blocked=False),
-                'is_post_liked': True if self.request.session.get(f'p{self.object.id}u{self.request.user.id}') else False
+                'likes': PostLike.objects.filter(post=self.object).count(),
+                'is_post_liked': True if self.object.liked_by.filter(pk=self.request.user.pk) else False
             }
         )
         return ctx
@@ -213,19 +223,40 @@ class DeleteCommentView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteV
         return self.get_object().author == self.request.user
 
 
-class PostLikesView(generic.View):
+class PostLikeView(generic.View): #  todo działa ale zrobić przez serializator tak aby można było po bożemu użyc metod POST i DELETE
 
     def get(self, request):
         post_id  = request.GET.get('post_id')
-        user_id  = request.GET.get('user_id')
         like_or_unlike = request.GET.get('like_or_unlike')
-        like_key = f'p{post_id}u{user_id}'
         if like_or_unlike == 'like':
-            request.session[like_key] = True
-            request.session.set_expiry(100*365*24*3600)
-            Post.objects.filter(pk=post_id).update(thumbs_up=F('thumbs_up') + 1)
+            PostLike.objects.create(
+                post=Post.objects.get(pk=post_id),
+                user=get_user_model().objects.get(pk=request.user.id)
+            )
             return JsonResponse(True, safe=False)
         else:
-            del request.session[like_key]
-            Post.objects.filter(pk=post_id).update(thumbs_up=F('thumbs_up') - 1)
+            PostLike.objects.filter(
+                post=Post.objects.get(pk=post_id),
+                user=get_user_model().objects.get(pk=request.user.id)
+            ).delete()
             return JsonResponse(False, safe=False)
+
+#
+# class PostLikeView(APIView):
+#
+#     def post(self, request):
+#         data = request.data
+#         data['user'] = request.user
+#         serializer = PostLikeSerializer(data=data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#
+#     def delete(self, request):
+#         pass
+#
+#
+#
+# class PostLikeDestroyView(DestroyAPIView):
+#     pass
