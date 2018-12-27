@@ -1,19 +1,18 @@
 let likeIcon     = $('.fa-thumbs-up');
-let isLiked      = likeIcon.data('is-liked');
-let userId       = likeIcon.data('user-id');
+let isPostLiked  = likeIcon.data('is-post-liked') === 'True';
 let postId       = likeIcon.data('post-id');
 let likesCounter = likeIcon.siblings();
 
-if (isLiked === 'True') {
+if (isPostLiked) {
     likeIcon.css('color', 'blue')
 }
 
 likeIcon.on('click', function(){
-    if (isLiked === 'True') {
+    if (isPostLiked) {
         $.ajax({
-            url: 'http://127.0.0.1:8000/post_likes/',
-            data: {'like_or_unlike': 'unlike', 'user_id': userId, 'post_id': postId},
-            type: 'GET',
+            url: 'http://127.0.0.1:8000/post_like/',
+            data: {'like_or_unlike': 'unlike', 'post_id': postId},
+            type: 'GET', // todo zrobić tu DELETE
             dataType: 'json',
         })
         .done(function () {
@@ -21,13 +20,13 @@ likeIcon.on('click', function(){
             let properCounterValue = currentCounterValue - 1;
             likesCounter.text(properCounterValue);
             likeIcon.css('color', '');
-            isLiked = 'False';
+            isPostLiked = false;
         })
     } else {
         $.ajax({
-            url: 'http://127.0.0.1:8000/post_likes/',
-            data: {'like_or_unlike': 'like', 'user_id': userId, 'post_id': postId},
-            type: 'GET',
+            url: 'http://127.0.0.1:8000/post_like/',
+            data: {'like_or_unlike': 'like', 'post_id': postId},
+            type: 'GET', // todo zrobić tu POST
             dataType: 'json',
         })
         .done(function () {
@@ -35,7 +34,7 @@ likeIcon.on('click', function(){
             let properCounterValue = currentCounterValue + 1;
             likesCounter.text(properCounterValue);
             likeIcon.css('color', 'blue');
-            isLiked = 'True';
+            isPostLiked = true;
         })
     }
 });
