@@ -1,4 +1,5 @@
 {% extends 'app_pintagram/base.html' %}
+{% load app_pintagram.extras %}
 
 {% block content %}
 
@@ -34,6 +35,7 @@
                     <img class="img-list" src="{{ post.photo.url }}" alt="Here should be post's photo">
                 </a>
             </p>
+            <p><span>Likes: {{ post|likes_count }}</span> <span>Comments: {{ post|comments_count }}</span></p>
         </fieldset>
     {% endfor %}
 
