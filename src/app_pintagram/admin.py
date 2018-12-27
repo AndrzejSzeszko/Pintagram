@@ -33,6 +33,10 @@ def content_abstract(comment_obj):
     return f'{comment_obj.content[:10]}...'
 
 
+def post_likes_count(post_obj):
+    return post_obj.liked_by.all().count()
+
+
 class CustomUserAdmin(admin.ModelAdmin):
     list_display = [
         'pk',
@@ -50,7 +54,6 @@ class CustomUserAdmin(admin.ModelAdmin):
     ]
 
 
-
 class PostAdmin(admin.ModelAdmin):
     list_display = [
         'pk',
@@ -58,8 +61,7 @@ class PostAdmin(admin.ModelAdmin):
         'photo',
         description_abstract,
         'creation_datetime',
-        'thumbs_up',
-        'thumbs_down',
+        post_likes_count,
         'is_blocked',
     ]
     actions = [
