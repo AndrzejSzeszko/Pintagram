@@ -16,6 +16,7 @@ class CustomUser(auth_models.AbstractUser):
     email         = models.EmailField(unique=True)
     profile_photo = models.ImageField(upload_to='profile_pics', default='default_user.jpg')
     is_blocked    = models.BooleanField(default=False)
+    likes_posts   = models.ManyToManyField('Post', through='PostLike', related_name='liked_by')
 
     def save(self, *args, **kwargs):
         super().save()
@@ -35,8 +36,8 @@ class Post(models.Model):
     # path              = models.FilePathField()
     description       = models.TextField(max_length=256, null=True, blank=True)
     creation_datetime = models.DateTimeField(auto_now_add=True)
-    thumbs_up         = models.PositiveIntegerField(default=0)
-    thumbs_down       = models.PositiveIntegerField(default=0)
+    # thumbs_up         = models.PositiveIntegerField(default=0)
+    # thumbs_down       = models.PositiveIntegerField(default=0)
     is_blocked        = models.BooleanField(default=False)
 
     def get_absolute_url(self):
@@ -63,3 +64,19 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'Comment of id {self.id} by {self.author} on Post of id {self.post_id}'
+
+
+class PostLike(models.Model):
+    user              = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET(get_sentinel_user))
+    post              = models.ForeignKey(Post, on_delete=models.CASCADE)
+    creation_datetime = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.user} likes {self.post}'
+
+    @property
+    def slug(self):
+        return f'p{self.post.pk}u{self.user.pk}'
+
+    class Meta:
+        unique_together = ['user', 'post']
