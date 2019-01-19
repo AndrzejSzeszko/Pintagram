@@ -11,6 +11,11 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import json
+
+# replace path in open('') with path to your pintagram_config.json file.
+with open('/home/andrzej_hp/PycharmProjects/Pintagram/my_pintagram_config.json') as config_file:
+    config = json.load(config_file)
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +25,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '4j73d_+^g12-rbtf517kv11+0-t-hsabs8z)-+(vml-&u4o_jp'
+SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '167.99.204.139']
 
 
 # Application definition
@@ -86,9 +91,9 @@ WSGI_APPLICATION = 'Pintagram.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pintagram',
-        'USER': 'postgres',
-        'PASSWORD': 'coderslab',
+        'NAME': config['DB_NAME'],
+        'USER': config['DB_USER'],
+        'PASSWORD': config['DB_USER_PASS'],
         'HOST': '127.0.0.1'
     }
 }
