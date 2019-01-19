@@ -1,17 +1,6 @@
 from django.shortcuts import (
-    render,
-    reverse,
     redirect
 )
-from rest_framework.generics import (
-    CreateAPIView,
-    DestroyAPIView,
-)
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from .serializers import PostLikeSerializer
-from django.db.models import F
 from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.contrib.auth import get_user_model
@@ -31,7 +20,6 @@ from .forms import (
     PostForm,
     CommentForm,
     SignInForm,
-    UpdateCustomUserForm,
 )
 
 
@@ -46,7 +34,7 @@ class ListAllPostsView(LoginRequiredMixin, generic.ListView):
         return queryset.filter(is_blocked=False)
 
 
-class SignInView(generic.CreateView):
+class SignUpView(generic.CreateView):
     model         = get_user_model()
     template_name = 'app_pintagram/sign_in.html'
     form_class    = SignInForm
@@ -226,7 +214,7 @@ class DeleteCommentView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteV
 class PostLikeView(generic.View): #  todo działa ale zrobić przez serializator tak aby można było po bożemu użyc metod POST i DELETE
 
     def get(self, request):
-        post_id  = request.GET.get('post_id')
+        post_id        = request.GET.get('post_id')
         like_or_unlike = request.GET.get('like_or_unlike')
         if like_or_unlike == 'like':
             PostLike.objects.create(

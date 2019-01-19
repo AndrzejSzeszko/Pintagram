@@ -33,11 +33,8 @@ class CustomUser(auth_models.AbstractUser):
 class Post(models.Model):
     author            = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     photo             = models.ImageField(upload_to='posted_photos')
-    # path              = models.FilePathField()
     description       = models.TextField(max_length=256, null=True, blank=True)
     creation_datetime = models.DateTimeField(auto_now_add=True)
-    # thumbs_up         = models.PositiveIntegerField(default=0)
-    # thumbs_down       = models.PositiveIntegerField(default=0)
     is_blocked        = models.BooleanField(default=False)
 
     def get_absolute_url(self):

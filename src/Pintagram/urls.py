@@ -25,7 +25,7 @@ urlpatterns = [
     path('', views.ListAllPostsView.as_view(), name='list-of-all-posts'),
     path('login/', auth_views.LoginView.as_view(template_name='app_pintagram/login.html'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='app_pintagram/logout.html'), name='logout'),
-    path('sign_in/', views.SignInView.as_view(), name='sign-in'),
+    path('sign_up/', views.SignUpView.as_view(), name='sign-up'),
     path('user/details/<int:pk>/', views.CustomUserDetailView.as_view(), name='user-details'),
     path('user/update/<int:pk>/', views.UpdateCustomUserView.as_view(), name='user-update'),
     path('user/delete/<int:pk>/', views.DeleteCustomUser.as_view(), name='user-delete'),
