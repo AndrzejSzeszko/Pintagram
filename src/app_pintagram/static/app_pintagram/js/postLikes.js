@@ -1,10 +1,10 @@
 let likeIcon     = $('.fa-thumbs-up');
 let isPostLiked  = likeIcon.data('is-post-liked') === 'True';
 let postId       = likeIcon.data('post-id');
-let likesCounter = likeIcon.siblings();
+let likesCounter = likeIcon.siblings("span");
 
 if (isPostLiked) {
-    likeIcon.css('color', 'blue')
+    likeIcon.css('color', '#2d7fc8')
 }
 
 likeIcon.on('click', function(){
