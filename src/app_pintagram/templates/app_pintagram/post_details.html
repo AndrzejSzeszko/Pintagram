@@ -35,10 +35,12 @@
         <fieldset class="col-md-6">
             <div class="panel panel-default content-section">
                 <div class="article-metadata">
-                    {% if post.author.is_blocked %}
-                        <span class="mr-2 text-muted">{{ post.author }} (user blocked)</span>
+                    {% if comment.author.is_blocked %}
+                        <span class="mr-2 text-muted">{{ comment.author }} (user blocked)</span>
+                    {% elif comment.author.username == 'Deleted_user' %}
+                        <span class="mr-2 text-muted">deleted user</span>
                     {% else %}
-                        <a class="mr-2" href="{% url 'user-details' post.author_id %}">{{ post.author }}</a>
+                        <a class="mr-2" href="{% url 'user-details' comment.author_id %}">{{ comment.author }}</a>
                     {% endif %}
                         <small class="text-muted">{{ comment.creation_datetime|date:"Y/m/d H:i:s" }}</small>
                 </div>

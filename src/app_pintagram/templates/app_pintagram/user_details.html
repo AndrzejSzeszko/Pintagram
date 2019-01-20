@@ -8,6 +8,9 @@
             <h4>User {{ user_details.username }} information:</h4>
             <div>
                 <img class="article-content img-profile" src="{{ user_details.profile_photo.url }}" alt="Here should be post's photo"><br>
+                {% if user_details.first_name or user_details.last_name %}
+                    {{ user_details.first_name }} {{ user_details.last_name }}
+                {% endif %}<br>
                 <small class="text-muted">{{ user_details.email }}</small>
             </div>
 
