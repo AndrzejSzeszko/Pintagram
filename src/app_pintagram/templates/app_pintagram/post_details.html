@@ -3,43 +3,48 @@
 
 {% block content %}
 
-    <p>Author: <a href="{% url 'user-details' post.author_id %}">{{ post.author }}</a></p>
+    <article class="media content-section">
+        <img class="rounded-circle article-img" src="{{ post.author.profile_photo.url }}">
+        <div class="media-body">
+            <div class="article-metadata">
+                {% if post.author.is_blocked %}
+                    <span class="mr-2 text-muted">{{ post.author }} (user blocked)</span>
+                {% else %}
+                    <a class="mr-2" href="{% url 'user-details' post.author_id %}">{{ post.author }}</a>
+                {% endif %}
+                    <small class="text-muted">{{ post.creation_datetime|date:"Y/m/d H:i:s" }}</small>
+            </div>
+            <div>
+                <img class="article-content img-list" src="{{ post.photo.url }}" alt="Here should be post's photo"><br>
+                <i class="fas fa-thumbs-up" data-post-id="{{ post.id }}" data-is-post-liked="{{ is_post_liked }}"></i>
+                <span>{{ likes }}</span>
+            </div>
+            {% if post.description %}
+                <p class="article-content">{{ post.description }}</p>
+            {% endif %}
 
-    <p>Created: {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
+            {% if post.author == user %}
+                <a class="btn btn-outline-info" href="{% url 'post-update' post.pk %}">Update post</a>
+                <a class="btn btn-outline-danger" href="{% url 'post-delete' post.pk %}">Delete post</a>
+            {% endif %}
+        </div>
+    </article>
 
-    <img src="{{ post.photo.url }}" alt="Here should be post pic">
-
-    <p>
-        <i class="fas fa-thumbs-up" data-post-id="{{ post.id }}" data-is-post-liked="{{ is_post_liked }}"></i>
-        <span>{{ likes }}</span>
-{#        <i class="fas fa-thumbs-down"></i> {{ post.thumbs_down }}#}
-    </p>
-
-    {% if post.description %}
-        <p>Description: {{ post.description }}</p>
-    {% endif %}
-
-    {% if post.author == user %}
-        <button type="button">
-            <a href="{% url 'post-update' post.pk %}">Update post</a>
-        </button>
-        <button type="button">
-            <a href="{% url 'post-delete' post.pk %}">Delete post</a>
-        </button>
-    {% endif %}
-
-    <h4>Comments:</h4>
+    <h4 class="article-title">Comments:</h4>
     {% for comment in comments %}
         <fieldset class="col-md-6">
-            <div class="panel panel-default">
-                <legend>
-                    <a href="{% url 'user-details' comment.author_id %}">{{ comment.author }}</a> on {{ comment.creation_datetime|date:"Y/m/d H:i:s" }}
-                </legend>
+            <div class="panel panel-default content-section">
+                <div class="article-metadata">
+                    {% if post.author.is_blocked %}
+                        <span class="mr-2 text-muted">{{ post.author }} (user blocked)</span>
+                    {% else %}
+                        <a class="mr-2" href="{% url 'user-details' post.author_id %}">{{ post.author }}</a>
+                    {% endif %}
+                        <small class="text-muted">{{ comment.creation_datetime|date:"Y/m/d H:i:s" }}</small>
+                </div>
                 <p>{{ comment.content }}</p>
                 {% if comment.author == user %}
-                    <button type="button">
-                        <a href="{% url 'comment-delete' comment.pk %}">Delete comment</a>
-                    </button>
+                    <a class="btn btn-outline-danger" href="{% url 'comment-delete' comment.pk %}">Delete comment</a>
                 {% endif %}
             </div>
         </fieldset>
@@ -49,7 +54,7 @@
     <form method="post">
         {% csrf_token %}
             {{ form|crispy }}
-        <input type="submit" value="Post comment">
+        <input type="submit" value="Post comment" class="btn btn-outline-info">
     </form>
 
 {% endblock content %}

@@ -5,15 +5,24 @@
 
     <h3>Newest posts:</h3>
     {% for post in list_of_all_posts %}
-        <fieldset>
-            <p><a href="{% url 'user-details' post.author_id %}">{{ post.author }}</a> on {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
-            <p>
+        <article class="media content-section">
+            <img class="rounded-circle article-img" src="{{ post.author.profile_photo.url }}">
+            <div class="media-body">
+                <div class="article-metadata">
+                    {% if post.author.is_blocked %}
+                        <span class="mr-2 text-muted">{{ post.author }} (user blocked)</span>
+                    {% else %}
+                        <a class="mr-2" href="{% url 'user-details' post.author_id %}">{{ post.author }}</a>
+                    {% endif %}
+                        <small class="text-muted">{{ post.creation_datetime|date:"Y/m/d H:i:s" }}</small>
+                </div>
                 <a href="{% url 'post-details' post.pk %}">
-                    <img class="img-list" src="{{ post.photo.url }}" alt="Here should be post's photo">
+                    <img class="article-content img-list" src="{{ post.photo.url }}" alt="Here should be post's photo">
                 </a>
-            </p>
-            <p><span>Likes: {{ post|likes_count }}</span> <span>Comments: {{ post|comments_count }}</span></p>
-        </fieldset>
+                <p><span>Likes: {{ post|likes_count }}</span> <span>Comments: {{ post|comments_count }}</span></p>
+                <p class="article-content">{{ post.description }}</p>
+            </div>
+        </article>
     {% endfor %}
     
 {% endblock content %}

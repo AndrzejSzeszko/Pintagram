@@ -16,44 +16,61 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" type="text/css" href="{% static 'app_pintagram/css/style.css' %}">
 
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+
     <title>Pintagram</title>
 </head>
 <body>
 
-    <h2>Welcome to Pintagram</h2>
-    <fieldset>
-        <a href="{% url 'sign-in' %}">Sign In</a>
-        {% if user.is_authenticated %}
-            <a href="{% url 'list-of-all-posts' %}">Home</a>
-            <a href="{% url 'post-create' %}">Add New post</a>
-            <p>
-                You are logged in as <a href="{% url 'user-details' user.pk %}">{{ user }}</a>
-                <a href="{% url 'logout' %}">Logout</a>
-            </p>
-        {% else %}
-            <p>
-                You are logged as {{ user }}
-                <a href="{% url 'login' %}">Login</a>
-            </p>
-        {% endif %}
-    </fieldset>
+    <header class="site-header">
+        <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+            <div class="container">
+                <a class="navbar-brand mr-4" href="{% url 'list-of-all-posts' %}">Pintagram <span id="beta">beta</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarToggle">
+                    <div class="navbar-nav mr-auto">
+                        {% if user.is_authenticated %}
+                            <a class="nav-item nav-link" href="{% url 'post-create' %}">Add new post</a>
+                        {% endif %}
+                    </div>
+                    <!-- Navbar Right Side -->
+                    <div class="navbar-nav">
+                        {% if user.is_authenticated %}
+                            <a class="nav-item nav-link" href="{% url 'user-details' user.pk %}">{{ user }}</a>
+                            <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
+                        {% else %}
+                            <a class="nav-item nav-link" href="{% url 'sign-up' %}">Sign up!</a>
+                            <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
 
-    {% if messages %}
-        <ul class="messages col-md-8 container">
-            {% for message in messages %}
-            <li{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
+    <main role="main" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
 
-    <div class="container">
-        {% block content %}
-        {% endblock content %}
-    </div>
+                {% block content %}
+                {% endblock content%}
+
+            </div>
+        </div>
+    </main>
 
     <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <!-- Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 

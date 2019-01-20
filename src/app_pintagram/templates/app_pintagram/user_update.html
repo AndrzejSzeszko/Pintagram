@@ -6,7 +6,7 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form|crispy }}
-        <button type="submit">Save changes</button>
-        <button type="button"><a href="#">Cancel</a></button>
+        <input type="submit" value="Save changes" class="btn btn-outline-info">
+        <a class="btn btn-outline-primary" href="{% url 'user-details' object.pk %}">Cancel</a>
     </form>
 {% endblock content %}

@@ -6,10 +6,8 @@
     <form method="post">
         {% csrf_token %}
         <h4>Do you really want to delete this post? There won't be possibility to undo that!</h4>
-        <input type="submit" value="Confirm">
-        <button type="button">
-            <a href="{% url 'post-details' object.pk %}">Cancel</a>
-        </button>
+        <input class="btn btn-outline-danger" type="submit" value="Confirm">
+        <a class="btn btn-outline-primary" href="{% url 'post-details' object.pk %}">Cancel</a>
     </form>
 
 {% endblock content %}

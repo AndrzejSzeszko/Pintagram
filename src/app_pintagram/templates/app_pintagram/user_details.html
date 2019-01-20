@@ -3,40 +3,36 @@
 
 {% block content %}
 
-    <h4>User {{ user_details.username }} information:</h4>
+    <article class="media content-section">
+        <div class="media-body">
+            <h4>User {{ user_details.username }} information:</h4>
+            <div>
+                <img class="article-content img-profile" src="{{ user_details.profile_photo.url }}" alt="Here should be post's photo"><br>
+                <small class="text-muted">{{ user_details.email }}</small>
+            </div>
 
-    <img  class="rounded-circle account-image" src="{{ user_details.profile_photo.url }}" alt="Here should be user profile pic">
-
-    <p>Email: {{ user_details.email }}</p>
-
-    {% if user_details.first_name %}
-        <p>First name: {{ user_details.first_name }}</p>
-    {% endif %}
-
-    {% if user_details.last_name %}
-        <p>Last name: {{ user_details.last_name }}</p>
-    {% endif %}
-    
-    {% if user_details == user %}
-        <button type="button">
-            <a href="{% url 'user-update' user_details.pk %}">Update information about you</a>
-        </button>
-        <button type="button">
-            <a href="{% url 'user-delete' user_details.pk %}">Delete account</a>
-        </button>
-    {% endif %}
+            {% if user_details == user %}
+                <a class="btn btn-outline-info" href="{% url 'user-update' user_details.pk %}">Update information about you</a>
+                <a class="btn btn-outline-danger" href="{% url 'user-delete' user_details.pk %}">Delete account</a>
+            {% endif %}
+        </div>
+    </article>
 
     <h4>User's posts:</h4>
     {% for post in user_details_posts %}
-        <fieldset>
-            <p><a href="{% url 'user-details' post.author_id %}">{{ post.author }}</a> on {{ post.creation_datetime|date:"Y/m/d H:i:s" }}</p>
-            <p>
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <a class="mr-2" href="{% url 'user-details' post.author_id %}">{{ post.author }}</a>
+                    <small class="text-muted">{{ post.creation_datetime|date:"Y/m/d H:i:s" }}</small>
+                </div>
                 <a href="{% url 'post-details' post.pk %}">
-                    <img class="img-list" src="{{ post.photo.url }}" alt="Here should be post's photo">
+                    <img class="article-content img-list" src="{{ post.photo.url }}" alt="Here should be post's photo">
                 </a>
-            </p>
-            <p><span>Likes: {{ post|likes_count }}</span> <span>Comments: {{ post|comments_count }}</span></p>
-        </fieldset>
+                <p><span>Likes: {{ post|likes_count }}</span> <span>Comments: {{ post|comments_count }}</span></p>
+                <p class="article-content">{{ post.description }}</p>
+            </div>
+        </article>
     {% endfor %}
 
 {% endblock content %}
