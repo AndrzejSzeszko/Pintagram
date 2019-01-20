@@ -13,7 +13,7 @@ ul {
 }
 
 .bg-steel {
-  background-color: #168a1c;
+  background-color: #2d868a;
 }
 
 .site-header .navbar-nav .nav-link {
@@ -84,7 +84,11 @@ a.article-title:hover {
 }
 
 .img-list {
-    width: 400px;
+    height: 400px;
+}
+
+.img-profile {
+    height: 250px;
 }
 
 #beta {
