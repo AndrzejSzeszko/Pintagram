@@ -37,7 +37,6 @@ ALLOWED_HOSTS = ['127.0.0.1', '167.99.204.139']
 
 INSTALLED_APPS = [
     # added on "django-admin startproject"
-    # 'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # third party
+    'corsheaders',
     'crispy_forms',
     'rest_framework',
     # custom
@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    # 'corsheaders.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -61,8 +61,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-
-# CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'Pintagram.urls'
 
@@ -162,6 +160,12 @@ LOGIN_REDIRECT_URL = 'list-of-all-posts'
 # crispy forms stuff
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+
+# django cors headers
+
+CORS_ORIGIN_ALLOW_ALL = True
+
 
 
 # django-rest-framework
