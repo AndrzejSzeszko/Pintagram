@@ -8,4 +8,4 @@ This is Instagram-like app made by myself.
 - comment liking
 - SSL certificate
 - domain name
-- resetting password via eamil
+- resetting password via email
