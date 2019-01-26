@@ -9,3 +9,4 @@ This is Instagram-like app made by myself.
 - SSL certificate
 - domain name
 - resetting password via email
+- pagination where needed
