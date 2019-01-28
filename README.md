@@ -6,7 +6,5 @@ This is Instagram-like app made by myself.
 ## To Do:
 - make like button outstand when hoovered (so that everyone knows it's clickable)
 - comment liking
-- SSL certificate
-- domain name
 - resetting password via email
 - pagination where needed
